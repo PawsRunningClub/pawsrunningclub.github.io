@@ -444,7 +444,7 @@ function go(id){
   const y = id === 'hero' ? 0 : el.getBoundingClientRect().top + window.scrollY - 56;
   window.scrollTo({ top:y, behavior:matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
 }
-/* ───────────── галерея (TG_media B3–B5) ───────────── */
+/* ───────────── галерея (TG_media B3–B7) ───────────── */
 let GAL = [];
 function renderGallery(){
   const m = (D.media && D.media.gallery) || [];
