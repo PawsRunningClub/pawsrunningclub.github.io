@@ -358,7 +358,7 @@ function renderStats(){
   $('#statsGrid').innerHTML = `
     <div class="pn spot"><h3>Результатов по сезонам</h3><div class="cols">${cols}</div></div>
     <div class="pn spot"><h3>Популярные дистанции</h3>${hb}</div>
-    <div class="pn spot"><h3>Состав клуба</h3>
+    <div class="pn spot"><h3>Активные участники клуба</h3>
       <div class="split"><div class="sp-t"><span style="color:var(--m)">Мужчины · ${m}</span><span style="color:var(--f)">Женщины · ${f}</span></div>
         <div class="sp-b"><i style="flex:${m||0.001};background:var(--m)"></i><i style="flex:${f||0.001};background:var(--f)"></i></div></div>
       <div class="split"><div class="sp-t"><span>Ученики · ${stu}</span><span class="muted">Тренеры · ${tr}</span></div>
