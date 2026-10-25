@@ -97,11 +97,11 @@ function shell(){
     <b>Paws<br>Running Club</b>
   </a>
   <nav class="nav" id="nav" aria-label="Разделы">
+    <button data-go="stats">Цифры</button>
+    <button data-go="gallery" id="navGal" hidden>Кадры</button>
     <button data-go="records">Рекорды</button>
     <button data-go="rating">Рейтинг</button>
     <button data-go="feed">Результаты</button>
-    <button data-go="stats">Цифры</button>
-    <button data-go="gallery" id="navGal" hidden>Кадры</button>
     <button data-go="athletes">Спортсмены</button>
   </nav>
 </div></header>
@@ -127,9 +127,19 @@ function shell(){
 
 <div class="wrap"><div class="kpi rv" id="kpi"></div></div>
 
+<section id="stats"><div class="wrap">
+  <div class="sh rv"><div><div class="eyebrow">01 — Клуб в цифрах</div><h2>Цифры <s>клуба</s></h2></div></div>
+  <div class="grid3 rv" id="statsGrid"></div>
+</div></section>
+
+<section id="gallery" hidden><div class="wrap">
+  <div class="sh rv"><div><div class="eyebrow">02 — Кадры</div><h2>Клуб <s>в кадре</s></h2></div></div>
+  <div class="gal" id="galGrid"></div>
+</div></section>
+
 <section id="records"><div class="wrap">
   <div class="sh rv">
-    <div><div class="eyebrow">01 — Рекорды</div><h2>Рекорды <s>клуба</s></h2></div>
+    <div><div class="eyebrow">03 — Рекорды</div><h2>Рекорды <s>клуба</s></h2></div>
     <div class="seg" id="recScope" role="group" aria-label="Категория">
       <button data-v="club" aria-pressed="true">Ученики клуба</button>
       <button data-v="all" aria-pressed="false">Абсолют</button>
@@ -140,7 +150,7 @@ function shell(){
 
 <section id="rating"><div class="wrap">
   <div class="sh rv">
-    <div><div class="eyebrow">02 — Рейтинг</div><h2>ТОП-10 <s>по дистанциям</s></h2></div>
+    <div><div class="eyebrow">04 — Рейтинг</div><h2>ТОП-10 <s>по дистанциям</s></h2></div>
     <div class="ctl">
       <div class="seg" id="scope" role="group" aria-label="Категория">
         <button data-v="club" aria-pressed="true">Ученики клуба</button>
@@ -158,18 +168,8 @@ function shell(){
 </div></section>
 
 <section id="feed"><div class="wrap">
-  <div class="sh rv"><div><div class="eyebrow">03 — Свежее</div><h2>Последние <s>результаты</s></h2></div></div>
+  <div class="sh rv"><div><div class="eyebrow">05 — Свежее</div><h2>Последние <s>результаты</s></h2></div></div>
   <div class="feed" id="feedGrid"></div>
-</div></section>
-
-<section id="stats"><div class="wrap">
-  <div class="sh rv"><div><div class="eyebrow">04 — Клуб в цифрах</div><h2>Цифры <s>клуба</s></h2></div></div>
-  <div class="grid3 rv" id="statsGrid"></div>
-</div></section>
-
-<section id="gallery" hidden><div class="wrap">
-  <div class="sh rv"><div><div class="eyebrow">05 — Кадры</div><h2>Клуб <s>в кадре</s></h2></div></div>
-  <div class="gal" id="galGrid"></div>
 </div></section>
 
 <section id="athletes"><div class="wrap">
@@ -444,7 +444,7 @@ function go(id){
   const y = id === 'hero' ? 0 : el.getBoundingClientRect().top + window.scrollY - 56;
   window.scrollTo({ top:y, behavior:matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
 }
-/* ───────────── галерея (TG_media B3–B7) ───────────── */
+/* ───────────── галерея (TG_media: B3 и ниже) ───────────── */
 let GAL = [];
 function renderGallery(){
   const m = (D.media && D.media.gallery) || [];
@@ -458,7 +458,7 @@ function renderGallery(){
       <div class="shot-i"><img alt=""></div><i class="glare"></i>
       <span class="zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.2-4.2M11 8v6M8 11h6"/></svg></span>
     </figure>`).join('');
-  $$('#galGrid img').forEach((img, k) => loadImage(img, GAL[k].ref, 1600, null, 'g' + GAL[k].i));
+  $$('#galGrid img').forEach((img, k) => { if (k > 2) img.loading = 'lazy'; loadImage(img, GAL[k].ref, 1600, null, 'g' + GAL[k].i); });
   box.addEventListener('keydown', e => {
     const s = e.target.closest && e.target.closest('.shot');
     if (s && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openShot(+s.dataset.i); }
@@ -551,7 +551,7 @@ function initFx(){
 
 function spy(){
 
-  const ids = ['records','rating','feed','stats','gallery','athletes'];
+  const ids = ['stats','gallery','records','rating','feed','athletes'];
   const prog = $('#prog');
   const top = $('#top');
   const onScroll = () => {
